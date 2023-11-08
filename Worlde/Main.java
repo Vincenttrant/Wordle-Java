@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import Wordle.Functions;
+// import Wordle.Functions;
 
 public class Main{
     public class colors{
@@ -21,14 +21,19 @@ public class Main{
         return randNum;
     }
     
-    public static ArrayList<String> readFileIntoArray(String FileName) throws IOException{
-        BufferedReader reader = new BufferedReader(new FileReader(FileName));
-        String line;
-        ArrayList<String> words = new ArrayList<>();
-        while((line = reader.readLine()) != null){
-            words.add(line);
+    public static ArrayList<String> readFileIntoArray(ArrayList words, String FileName){
+        System.out.println("Reading file");
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(FileName));
+            String line;
+            while((line = reader.readLine()) != null){
+                words.add(line);
+            }
+            reader.close();
         }
-        reader.close();
+        catch(IOException e){
+            System.out.println("File not found");
+        }
         return words;
     }
     public static void displayRules(String mode){
@@ -51,8 +56,11 @@ public class Main{
             int i;
             String userGuess;
             ArrayList<String> words = new ArrayList<>();
-            words = Wordle.Functions.readFileIntoArray("words.txt");
-            //words = readFileIntoArray("words.txt");
+            // words = Wordle.Functions.readFileIntoArray("words.txt");
+            words = readFileIntoArray(words, "words.txt");
+            // for(i = 0; i < words.size(); i++){
+            //     System.out.println(words.get(i));
+            // }
             String wordToGuess = words.get(randomNum(words.size()));
             displayRules("easy");
             for(i = 0; i < 6; i++){
