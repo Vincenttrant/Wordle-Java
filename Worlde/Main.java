@@ -13,6 +13,9 @@ public class Main{
         public static String YELLOW_TEXT = "\u001B[33m";
         public static String RESET = "\u001B[0m";
         public static String GREEN_TEXT = "\u001B[32m";
+
+        public static String BG_GREEN = "\u001b[42m";
+        public static String BG_YELLOW = "\u001b[43m";
     }
 
     public static int randomNum(int sizeOfArray){
@@ -22,7 +25,6 @@ public class Main{
     }
     
     public static ArrayList<String> readFileIntoArray(ArrayList words, String FileName){
-        System.out.println("Reading file");
         try{
             BufferedReader reader = new BufferedReader(new FileReader(FileName));
             String line;
@@ -36,16 +38,18 @@ public class Main{
         }
         return words;
     }
-    public static void displayRules(String mode){
+    
+    public static int displayRules(String mode){
         if(mode == "hard"){
-
+            return 0;
         }
         else{
-            System.out.println("Guess the word in 6 tries");
-            System.out.println("Each guess must be a valid word.");
-            System.out.println("The color of the letter will change to show how close your guess was to the word.");
-            System.out.println("Examples:");
-            System.out.println(colors.GREEN_TEXT+"W"+colors.RESET+"hile");
+            System.out.println("Worlde - Guess the word in 6 tries\n");
+            // System.out.println("Each guess must be a valid word.");
+            // System.out.println("The color of the letter will change to show how close your guess was to the word.");
+            // System.out.println("Examples:");
+            // System.out.println(colors.GREEN_TEXT+"W"+colors.RESET+"hile");
+            return 1;
         }
     }
 
@@ -54,48 +58,61 @@ public class Main{
     public static void main(String[] args) throws Exception{
         try (Scanner input = new Scanner(System.in)) {
             int i;
+
             String userGuess;
+            String playAgain = "y";
             ArrayList<String> words = new ArrayList<>();
+
             // words = Wordle.Functions.readFileIntoArray("words.txt");
             words = readFileIntoArray(words, "words.txt");
             // for(i = 0; i < words.size(); i++){
             //     System.out.println(words.get(i));
             // }
-            String wordToGuess = words.get(randomNum(words.size()));
-            displayRules("easy");
-            for(i = 0; i < 6; i++){
-                System.out.println("Enter word:");
-                userGuess = input.nextLine();
-                while(userGuess.length() > wordToGuess.length()){
-                    System.out.println("Guess is too long, guess a 5 letter word");
+            while(playAgain.equalsIgnoreCase("y")){
+
+                String wordToGuess = words.get(randomNum(words.size()));
+                System.out.println(wordToGuess);
+
+                int mode = displayRules("easy");
+
+                for(i = 0; i < 6; i++){
+                    System.out.print("Enter word: ");
                     userGuess = input.nextLine();
-                }
-                if(userGuess.equalsIgnoreCase(wordToGuess)){
-                    System.out.println(colors.GREEN_TEXT + userGuess + colors.RESET);
-                    System.out.println("Congratulations you got it correct! Would you like to play again?");
-                    break;
-                }
-                else
-                {
-                    int j = 0;
-                    char[] letters = userGuess.toCharArray();
-                    for(char c : letters){
-                        if(c == wordToGuess.charAt(j)){
-                            System.out.print(colors.GREEN_TEXT+c+colors.RESET);
-                        }
-                        else if(wordToGuess.contains(Character.toString(c))){
-                            System.out.print(colors.YELLOW_TEXT + c + colors.RESET);
-                        }
-                        else
-                        {
-                            System.out.print(colors.RED_TEXT+c+colors.RESET);
-                        }
-                        j++;
+
+                    while(userGuess.length() != wordToGuess.length()){
+                        System.out.print("Guess a 5 letter word: ");
+                        userGuess = input.nextLine();
+
                     }
-                    System.out.println();
+
+                    if(userGuess.equalsIgnoreCase(wordToGuess)){
+                        System.out.println(colors.BG_GREEN + userGuess + colors.RESET);
+                        System.out.println();
+                        System.out.println("Congratulations you got it correct! Would you like to play again? (y/n)");
+                        playAgain = input.nextLine();
+                        System.out.println();
+                        break;
+                    }
+                    else{
+                        int j = 0;
+                        char[] letters = userGuess.toCharArray();
+                        for(char c : letters){
+                            if(c == wordToGuess.charAt(j)){
+                                System.out.print(colors.BG_GREEN + c + colors.RESET);
+                            }
+                            else if(wordToGuess.contains(Character.toString(c))){
+                                System.out.print(colors.BG_YELLOW + c + colors.RESET);
+                            }
+                            else{
+                                System.out.print(c+colors.RESET);
+                            }
+                            j++;
+                        }
+                        System.out.println("\n");
                     }
                 }
-        }
+            }
         }
     }
+}
 
