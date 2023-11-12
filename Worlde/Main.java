@@ -38,18 +38,28 @@ public class Main{
         }
         return words;
     }
-    
+
     public static int displayRules(String mode){
-        if(mode == "hard"){
-            return 0;
+        if(mode.equals("easy")){
+            System.out.println("Worlde - Guess the word in 8 tries\n");
+            return 8;
         }
-        else{
+        else if(mode.equals("normal")){
             System.out.println("Worlde - Guess the word in 6 tries\n");
+            return 6;
+        }
+        else if(mode.equals("hard")){
+            System.out.println("Worlde - Guess the word in 3 tries\n");
             // System.out.println("Each guess must be a valid word.");
             // System.out.println("The color of the letter will change to show how close your guess was to the word.");
             // System.out.println("Examples:");
             // System.out.println(colors.GREEN_TEXT+"W"+colors.RESET+"hile");
-            return 1;
+            return 3;
+        }
+        else{
+            System.out.println("Deafult mode.");
+            System.out.println("Worlde - Guess the word in 6 tries\n");
+            return 6;
         }
     }
 
@@ -71,11 +81,14 @@ public class Main{
             while(playAgain.equalsIgnoreCase("y")){
 
                 String wordToGuess = words.get(randomNum(words.size()));
-                System.out.println(wordToGuess);
+                // System.out.println(wordToGuess);
 
-                int mode = displayRules("easy");
+                System.out.println("What mode would you like to play? (easy/normal/hard)");
+                String mode = input.nextLine();
+                System.out.println();
+                int tries = displayRules(mode);
 
-                for(i = 0; i < 6; i++){
+                for(i = 0; i < tries; i++){
                     System.out.print("Enter word: ");
                     userGuess = input.nextLine();
 
@@ -110,6 +123,13 @@ public class Main{
                         }
                         System.out.println("\n");
                     }
+                }
+                
+                if(i == tries){
+                    System.out.println("You ran out of tries. The word was: " + wordToGuess);
+                    System.out.println("Would you like to play again? (y/n)");
+                    playAgain = input.nextLine();
+                    System.out.println();
                 }
             }
         }
