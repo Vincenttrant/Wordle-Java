@@ -1,7 +1,6 @@
 package Wordle;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -23,17 +22,17 @@ public class Main{
         int randNum = rand.nextInt(1000) % sizeOfArray;
         return randNum;
     }
-    
-    public static ArrayList<String> readFileIntoArray(ArrayList words, String FileName){
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader(FileName));
+
+    public static ArrayList<String> readFileIntoArray(String FileName){
+        ArrayList<String> words = new ArrayList<>();
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(FileName))){
             String line;
             while((line = reader.readLine()) != null){
-                words.add(line);
+                words.add(line.toLowerCase());
             }
-            reader.close();
         }
-        catch(IOException e){
+        catch(Exception e){
             System.out.println("File not found");
         }
         return words;
@@ -50,14 +49,10 @@ public class Main{
         }
         else if(mode.equals("hard")){
             System.out.println("Worlde - Guess the word in 3 tries\n");
-            // System.out.println("Each guess must be a valid word.");
-            // System.out.println("The color of the letter will change to show how close your guess was to the word.");
-            // System.out.println("Examples:");
-            // System.out.println(colors.GREEN_TEXT+"W"+colors.RESET+"hile");
             return 3;
         }
         else{
-            System.out.println("Deafult mode.");
+            System.out.println("Default mode.");
             System.out.println("Worlde - Guess the word in 6 tries\n");
             return 6;
         }
@@ -71,17 +66,12 @@ public class Main{
 
             String userGuess;
             String playAgain = "y";
-            ArrayList<String> words = new ArrayList<>();
+            ArrayList<String> words = readFileIntoArray("Data/words.txt");
 
-            // words = Wordle.Functions.readFileIntoArray("words.txt");
-            words = readFileIntoArray(words, "words.txt");
-            // for(i = 0; i < words.size(); i++){
-            //     System.out.println(words.get(i));
-            // }
             while(playAgain.equalsIgnoreCase("y")){
-
                 String wordToGuess = words.get(randomNum(words.size()));
-                // System.out.println(wordToGuess);
+//                 System.out.println(wordToGuess);
+
 
                 System.out.println("What mode would you like to play? (easy/normal/hard)");
                 String mode = input.nextLine();
@@ -95,7 +85,6 @@ public class Main{
                     while(userGuess.length() != wordToGuess.length()){
                         System.out.print("Guess a 5 letter word: ");
                         userGuess = input.nextLine();
-
                     }
 
                     if(userGuess.equalsIgnoreCase(wordToGuess)){
