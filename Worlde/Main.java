@@ -7,20 +7,15 @@ import java.util.Scanner;
 // import Wordle.Functions;
 
 public class Main{
-    public class colors{
-        public static String RED_TEXT = "\u001B[31m";
-        public static String YELLOW_TEXT = "\u001B[33m";
+    public static class colors{
         public static String RESET = "\u001B[0m";
-        public static String GREEN_TEXT = "\u001B[32m";
-
         public static String BG_GREEN = "\u001b[42m";
         public static String BG_YELLOW = "\u001b[43m";
     }
 
     public static int randomNum(int sizeOfArray){
         Random rand = new Random();
-        int randNum = rand.nextInt(1000) % sizeOfArray;
-        return randNum;
+        return rand.nextInt(1000) % sizeOfArray;
     }
 
     public static ArrayList<String> readFileIntoArray(String FileName){
@@ -38,23 +33,26 @@ public class Main{
         return words;
     }
 
+
+    private static final int EASY_TRIES = 8;
+    private static final int NORMAL_TRIES = 6;
+    private static final int HARD_TRUES = 3;
+
     public static int displayRules(String mode){
-        if(mode.equals("easy")){
-            System.out.println("Worlde - Guess the word in 8 tries\n");
-            return 8;
-        }
-        else if(mode.equals("normal")){
-            System.out.println("Worlde - Guess the word in 6 tries\n");
-            return 6;
-        }
-        else if(mode.equals("hard")){
-            System.out.println("Worlde - Guess the word in 3 tries\n");
-            return 3;
-        }
-        else{
-            System.out.println("Default mode.");
-            System.out.println("Worlde - Guess the word in 6 tries\n");
-            return 6;
+        switch(mode){
+            case "easy":
+                System.out.println("Worlde - Guess the word in 8 tries\n");
+                return EASY_TRIES;
+            case "normal":
+                System.out.println("Worlde - Guess the word in 6 tries\n");
+                return NORMAL_TRIES;
+            case "hard":
+                System.out.println("Worlde - Guess the word in 3 tries\n");
+                return HARD_TRUES;
+            default:
+                System.out.println("Default mode.");
+                System.out.println("Worlde - Guess the word in 6 tries\n");
+                return NORMAL_TRIES;
         }
     }
 
@@ -70,7 +68,7 @@ public class Main{
 
             while(playAgain.equalsIgnoreCase("y")){
                 String wordToGuess = words.get(randomNum(words.size()));
-//                 System.out.println(wordToGuess);
+//              System.out.println(wordToGuess);
 
 
                 System.out.println("What mode would you like to play? (easy/normal/hard)");
