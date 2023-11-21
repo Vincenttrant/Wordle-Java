@@ -115,6 +115,7 @@ public class Main{
                 }
                 
                 if(i == tries){
+                    System.out.println("Your win streak was: " + Player.getWinStreak() +  "\n");
                     Player.setWinStreak(0);
                     System.out.println("You ran out of tries. The word was: " + wordToGuess);
                     System.out.println("Would you like to play again? (y/n)");

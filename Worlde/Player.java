@@ -50,7 +50,7 @@ public class Player
 // Win Streak functions.
 
     // Gets the win streak of the Player.
-    public int getWinStreak()
+    public static int getWinStreak()
     {
         return winStreak;
     }
