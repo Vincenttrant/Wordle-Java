@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-// import Wordle.Functions;
+import Wordle.Player;
 
 public class Main{
     public static class colors{
@@ -67,8 +67,10 @@ public class Main{
             ArrayList<String> words = readFileIntoArray("Data/words.txt");
 
             while(playAgain.equalsIgnoreCase("y")){
+                Player.showUsedWords();
+
                 String wordToGuess = words.get(randomNum(words.size()));
-//              System.out.println(wordToGuess);
+                Player.addUsedWord(wordToGuess);
 
 
                 System.out.println("What mode would you like to play? (easy/normal/hard)");
@@ -86,8 +88,8 @@ public class Main{
                     }
 
                     if(userGuess.equalsIgnoreCase(wordToGuess)){
-                        System.out.println(colors.BG_GREEN + userGuess + colors.RESET);
-                        System.out.println();
+                        System.out.println(colors.BG_GREEN + userGuess + colors.RESET +  "\n");
+                        Player.increaseWinStreak();
                         System.out.println("Congratulations you got it correct! Would you like to play again? (y/n)");
                         playAgain = input.nextLine();
                         System.out.println();
@@ -113,12 +115,17 @@ public class Main{
                 }
                 
                 if(i == tries){
+                    Player.setWinStreak(0);
                     System.out.println("You ran out of tries. The word was: " + wordToGuess);
                     System.out.println("Would you like to play again? (y/n)");
                     playAgain = input.nextLine();
                     System.out.println();
                 }
+                if(playAgain.equalsIgnoreCase("n")){
+                    Player.showUsedWords();
+                }
             }
+            System.out.println("Thanks for playing!");
         }
     }
 }
